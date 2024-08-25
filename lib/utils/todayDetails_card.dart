@@ -14,32 +14,61 @@ class TodayDetails extends StatefulWidget {
 }
 
 class _TodayDetailsState extends State<TodayDetails> {
-  String currClimate = "", currLastUpdated = "";
-  double currMaxTemp = 0.0,
-      currMinTemp = 0.0,
-      currTemp = 0.0,
-      currUv = 0.0,
-      currWindspeed = 0.0;
-  int currHumidity = 0;
+  String currMaxTemp = "",
+      currClimate = "",
+      currHumidity = "",
+      currLastUpdated = "",
+      currMinTemp = "",
+      currTemp = "",
+      currUv = "",
+      currWindspeed = "";
+
+  String currdate = "", currtime = "", currmonth = "";
 
   @override
   void initState() {
     super.initState();
     fetchWeather();
+    getDateAndTime();
   }
 
-  fetchWeather() async {
+  void fetchWeather() async {
     Map<String, dynamic> json = await ApiService().fetchDataFromWeatherAPI();
     // print(json);
     CurrentWeather weather = CurrentWeather.fromJson(json);
-    currMaxTemp = weather.maxTemp;
-    currClimate = weather.climate;
-    currHumidity = weather.humidity;
-    currLastUpdated = weather.lastUpdated;
-    currMinTemp = weather.minTemp;
-    currTemp = weather.temp;
-    currUv = weather.uv;
-    currWindspeed = weather.windSpeed;
+    setState(() {
+      currMaxTemp = weather.maxTemp.toString();
+      currClimate = weather.climate;
+      currHumidity = weather.humidity.toString();
+      currLastUpdated = weather.lastUpdated;
+      currMinTemp = weather.minTemp.toString();
+      currTemp = weather.temp.toString();
+      currUv = weather.uv.toString();
+      currWindspeed = weather.windSpeed.toString();
+    });
+  }
+
+  void getDateAndTime() {
+    DateTime dt = DateTime.now();
+    List<String> month = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    setState(() {
+      currmonth = month[dt.month - 1];
+      currdate = dt.day.toString();
+      currtime = '${dt.hour.toString()}:${dt.minute.toString()}';
+    });
   }
 
   @override
@@ -52,11 +81,11 @@ class _TodayDetailsState extends State<TodayDetails> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Today, Aug 25, 12:13',
+                Text('Today, $currmonth $currdate, $currtime',
                     style: TextStyle(color: Colors.white)),
                 RichText(
                   text: TextSpan(
-                      text: currTemp.toString(),
+                      text: currTemp,
                       style: TextStyle(
                           color: Colors.white.withOpacity(0.8),
                           fontSize: 150,
@@ -86,7 +115,8 @@ class _TodayDetailsState extends State<TodayDetails> {
                           children: [
                             Icon(Icons.arrow_upward,
                                 color: Colors.grey.shade400),
-                            Text('18°', style: TextStyle(color: Colors.white))
+                            Text('$currMaxTemp°',
+                                style: TextStyle(color: Colors.white))
                           ],
                         ),
                         SizedBox(width: 15),
@@ -94,7 +124,8 @@ class _TodayDetailsState extends State<TodayDetails> {
                           children: [
                             Icon(Icons.arrow_downward,
                                 color: Colors.grey.shade400),
-                            Text('10°', style: TextStyle(color: Colors.white))
+                            Text('$currMinTemp°',
+                                style: TextStyle(color: Colors.white))
                           ],
                         )
                       ],
@@ -110,7 +141,7 @@ class _TodayDetailsState extends State<TodayDetails> {
                   SizedBox(height: 20, child: Image.asset('images/clouds.png')),
                   SizedBox(width: 10),
                   Text(
-                    "Mostly Cloudy",
+                    currClimate,
                     style: TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ],
@@ -135,7 +166,7 @@ class _TodayDetailsState extends State<TodayDetails> {
                           height: 30,
                           child: Image.asset('images/windspeed.png')),
                       SizedBox(width: 5),
-                      Text('23 KPH',
+                      Text('$currWindspeed KPH',
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold))
                     ]),
@@ -151,7 +182,7 @@ class _TodayDetailsState extends State<TodayDetails> {
                           height: 30,
                           child: Image.asset('images/humidity.png')),
                       SizedBox(width: 5),
-                      Text('65',
+                      Text(currHumidity,
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold))
                     ]),
@@ -165,7 +196,7 @@ class _TodayDetailsState extends State<TodayDetails> {
                     Row(children: [
                       SizedBox(height: 30, child: Image.asset('images/uv.png')),
                       SizedBox(width: 5),
-                      Text('25',
+                      Text(currUv,
                           style: TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold))
                     ]),
