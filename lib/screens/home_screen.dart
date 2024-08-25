@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       SizedBox(height: devHeight * 0.04),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

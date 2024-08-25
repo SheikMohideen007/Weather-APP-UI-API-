@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class TodayDetails extends StatelessWidget {
@@ -68,40 +70,77 @@ class TodayDetails extends StatelessWidget {
             ),
             RotatedBox(
               quarterTurns: 3,
-              child: Text(
-                "Mostly Cloudy",
-                style: TextStyle(fontSize: 15, color: Colors.white),
+              child: Row(
+                children: [
+                  SizedBox(height: 20, child: Image.asset('images/clouds.png')),
+                  SizedBox(width: 10),
+                  Text(
+                    "Mostly Cloudy",
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
+                ],
               ),
             )
           ],
         ),
         SizedBox(height: 30),
         Container(
-          height: 80,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               color: Colors.grey.withOpacity(0.5)),
-          child: Row(
-            children: [
-              Column(
-                children: [
-                  Row(children: []),
-                  Text('Wind Speed', style: TextStyle(color: Colors.white))
-                ],
-              ),
-              Column(
-                children: [
-                  Row(children: []),
-                  Text('Humidity', style: TextStyle(color: Colors.white))
-                ],
-              ),
-              Column(
-                children: [
-                  Row(children: []),
-                  Text('Ultra Voilet', style: TextStyle(color: Colors.white))
-                ],
-              )
-            ],
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    Row(children: [
+                      SizedBox(
+                          height: 30,
+                          child: Image.asset('images/windspeed.png')),
+                      SizedBox(width: 5),
+                      Text('23 KPH',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold))
+                    ]),
+                    Text('Wind Speed',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold))
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(children: [
+                      SizedBox(
+                          height: 30,
+                          child: Image.asset('images/humidity.png')),
+                      SizedBox(width: 5),
+                      Text('65',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold))
+                    ]),
+                    Text('Humidity',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold))
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(children: [
+                      SizedBox(height: 30, child: Image.asset('images/uv.png')),
+                      SizedBox(width: 5),
+                      Text('25',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold))
+                    ]),
+                    Text('UV',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold))
+                  ],
+                )
+              ],
+            ),
           ),
         )
       ],
