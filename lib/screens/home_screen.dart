@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:weatherapp/utils/dayDetails_card.dart';
+import 'package:weatherapp/utils/day_card.dart';
 import 'package:weatherapp/utils/rounded_image.dart';
+import 'package:weatherapp/utils/todayDetails_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   double devHeight = 0.0, devWidth = 0.0;
-  bool isExpanded = false;
+  List<bool> isExpanded = [false, false, false, false, false, false, false];
   @override
   Widget build(BuildContext context) {
     devHeight = MediaQuery.of(context).size.height;
@@ -23,6 +26,41 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Image.asset(
             'images/night.png',
             fit: BoxFit.cover,
+          ),
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+            height: devHeight * 0.6,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  SizedBox(height: 50),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.location_on, color: Colors.white),
+                          SizedBox(width: 10),
+                          Text('Chennai, India',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20))
+                        ],
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            print('tapped');
+                          },
+                          icon: Icon(Icons.menu, color: Colors.white, size: 30))
+                    ],
+                  ),
+                  SizedBox(height: 40),
+                  TodayDetails(),
+                ],
+              ),
+            ),
           ),
         ),
         Align(
@@ -95,160 +133,101 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(height: devHeight * 0.03),
-                      Text('Next 5 Days',
+                      Text('Next 7 Days',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       SizedBox(height: devHeight * 0.02),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: devWidth * 0.005),
                         child: Column(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isExpanded = !isExpanded;
-                                });
-                              },
-                              child: Card(
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30),
-                                        topRight: Radius.circular(30))),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 15),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: Colors.grey.shade300,
-                                        radius: devHeight * 0.045,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Image.asset('images/rain.png'),
-                                        ),
-                                      ),
-                                      Column(
-                                        children: [
-                                          Text('Tomorrow',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14)),
-                                          SizedBox(height: 5),
-                                          Row(
-                                            children: [
-                                              Text('Light Rain Showers',
-                                                  style: TextStyle(
-                                                      color:
-                                                          Colors.grey.shade700,
-                                                      fontSize: 10)),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.arrow_upward,
-                                              color: Colors.grey.shade400),
-                                          Text('18°')
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(Icons.arrow_downward,
-                                              color: Colors.grey.shade400),
-                                          Text('10°')
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            AnimatedContainer(
-                              color: Colors.green,
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.easeInOut,
-                              height: isExpanded ? 250 : 0,
-                              child: ClipRRect(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 40),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(height: 5),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          RoundedImage(
-                                              devHeight: devHeight,
-                                              climate: 'sun',
-                                              time: '05:00 AM',
-                                              degree: '23'),
-                                          RoundedImage(
-                                              devHeight: devHeight,
-                                              climate: 'partlycloud',
-                                              time: '06:00 AM',
-                                              degree: '20'),
-                                          RoundedImage(
-                                              devHeight: devHeight,
-                                              climate: 'rain',
-                                              time: '07:00 AM',
-                                              degree: '17'),
-                                          RoundedImage(
-                                              devHeight: devHeight,
-                                              climate: 'thunder',
-                                              time: '08:00 AM',
-                                              degree: '16'),
-                                        ],
-                                      ),
-                                      SizedBox(height: 10),
-                                      Container(
-                                        height: 2,
-                                        color: Colors.grey.shade300,
-                                      ),
-                                      SizedBox(height: 10),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          RoundedImage(
-                                              devHeight: devHeight,
-                                              climate: 'sun',
-                                              time: '05:00 AM',
-                                              degree: '23'),
-                                          RoundedImage(
-                                              devHeight: devHeight,
-                                              climate: 'partlycloud',
-                                              time: '06:00 AM',
-                                              degree: '20'),
-                                          RoundedImage(
-                                              devHeight: devHeight,
-                                              climate: 'rain',
-                                              time: '07:00 AM',
-                                              degree: '17'),
-                                          RoundedImage(
-                                              devHeight: devHeight,
-                                              climate: 'thunder',
-                                              time: '08:00 AM',
-                                              degree: '16'),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
+                            //Tomorrow
+                            DayCard(
+                                devHeight: devHeight,
+                                onPress: () {
+                                  setState(() {
+                                    isExpanded[0] = !isExpanded[0];
+                                  });
+                                }),
+                            DayDetailsCard(
+                                isExpanded: isExpanded[0],
+                                devHeight: devHeight),
+                            SizedBox(height: 20),
+                            //Day 2
+                            DayCard(
+                                devHeight: devHeight,
+                                onPress: () {
+                                  setState(() {
+                                    isExpanded[1] = !isExpanded[1];
+                                  });
+                                }),
+                            DayDetailsCard(
+                                isExpanded: isExpanded[1],
+                                devHeight: devHeight),
+                            SizedBox(height: 20),
+                            //Day 3
+                            DayCard(
+                                devHeight: devHeight,
+                                onPress: () {
+                                  setState(() {
+                                    isExpanded[2] = !isExpanded[2];
+                                  });
+                                }),
+                            DayDetailsCard(
+                                isExpanded: isExpanded[2],
+                                devHeight: devHeight),
+                            SizedBox(height: 20),
+                            // Day 4
+                            DayCard(
+                                devHeight: devHeight,
+                                onPress: () {
+                                  setState(() {
+                                    isExpanded[3] = !isExpanded[3];
+                                  });
+                                }),
+                            DayDetailsCard(
+                                isExpanded: isExpanded[3],
+                                devHeight: devHeight),
+                            SizedBox(height: 20),
+                            // Day 5
+                            DayCard(
+                                devHeight: devHeight,
+                                onPress: () {
+                                  setState(() {
+                                    isExpanded[4] = !isExpanded[4];
+                                  });
+                                }),
+                            DayDetailsCard(
+                                isExpanded: isExpanded[4],
+                                devHeight: devHeight),
+                            SizedBox(height: 20),
+                            // Day 6
+                            DayCard(
+                                devHeight: devHeight,
+                                onPress: () {
+                                  setState(() {
+                                    isExpanded[5] = !isExpanded[5];
+                                  });
+                                }),
+                            DayDetailsCard(
+                                isExpanded: isExpanded[5],
+                                devHeight: devHeight),
+                            SizedBox(height: 20),
+                            // Day 7
+                            DayCard(
+                                devHeight: devHeight,
+                                onPress: () {
+                                  setState(() {
+                                    isExpanded[6] = !isExpanded[6];
+                                  });
+                                }),
+                            DayDetailsCard(
+                                isExpanded: isExpanded[6], devHeight: devHeight)
                           ],
                         ),
                       ),
                       SizedBox(height: 20),
-                      Container(
-                        color: Colors.red,
-                        height: 500,
-                      )
                     ],
                   ),
                 ),

@@ -16,7 +16,7 @@ class RoundedImage extends StatelessWidget {
     return Column(
       children: [
         CircleAvatar(
-          backgroundColor: Colors.grey.shade300,
+          backgroundColor: Colors.grey.shade200,
           radius: devHeight * 0.040,
           child: Padding(
             padding: EdgeInsets.all(10),
