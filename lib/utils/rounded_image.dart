@@ -17,7 +17,7 @@ class RoundedImage extends StatelessWidget {
       children: [
         CircleAvatar(
           backgroundColor: Colors.grey.shade200,
-          radius: devHeight * 0.040,
+          radius: devHeight * 0.035,
           child: Padding(
             padding: EdgeInsets.all(10),
             child: Image.asset('images/$climate.png'),

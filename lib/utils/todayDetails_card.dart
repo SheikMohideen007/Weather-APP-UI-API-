@@ -1,11 +1,46 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:weatherapp/model/current_weather.dart';
+import 'package:weatherapp/services/api_service.dart';
 
-class TodayDetails extends StatelessWidget {
+class TodayDetails extends StatefulWidget {
   const TodayDetails({
     super.key,
   });
+
+  @override
+  State<TodayDetails> createState() => _TodayDetailsState();
+}
+
+class _TodayDetailsState extends State<TodayDetails> {
+  String currClimate = "", currLastUpdated = "";
+  double currMaxTemp = 0.0,
+      currMinTemp = 0.0,
+      currTemp = 0.0,
+      currUv = 0.0,
+      currWindspeed = 0.0;
+  int currHumidity = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchWeather();
+  }
+
+  fetchWeather() async {
+    Map<String, dynamic> json = await ApiService().fetchDataFromWeatherAPI();
+    // print(json);
+    CurrentWeather weather = CurrentWeather.fromJson(json);
+    currMaxTemp = weather.maxTemp;
+    currClimate = weather.climate;
+    currHumidity = weather.humidity;
+    currLastUpdated = weather.lastUpdated;
+    currMinTemp = weather.minTemp;
+    currTemp = weather.temp;
+    currUv = weather.uv;
+    currWindspeed = weather.windSpeed;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +52,11 @@ class TodayDetails extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Today, Aug 25 12:13',
+                Text('Today, Aug 25, 12:13',
                     style: TextStyle(color: Colors.white)),
                 RichText(
                   text: TextSpan(
-                      text: '16',
+                      text: currTemp.toString(),
                       style: TextStyle(
                           color: Colors.white.withOpacity(0.8),
                           fontSize: 150,

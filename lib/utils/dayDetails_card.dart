@@ -26,7 +26,7 @@ class DayDetailsCard extends StatelessWidget {
               bottomRight: Radius.circular(30))),
       child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               SizedBox(height: 5),
@@ -73,6 +73,11 @@ class DayDetailsCard extends StatelessWidget {
                       devHeight: devHeight,
                       climate: 'partlycloud',
                       time: '06:00 AM',
+                      degree: '20'),
+                  RoundedImage(
+                      devHeight: devHeight,
+                      climate: 'sunset',
+                      time: 'Sunset',
                       degree: '20'),
                   RoundedImage(
                       devHeight: devHeight,

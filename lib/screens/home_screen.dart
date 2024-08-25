@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weatherapp/model/current_weather.dart';
+import 'package:weatherapp/services/api_service.dart';
 import 'package:weatherapp/utils/dayDetails_card.dart';
 import 'package:weatherapp/utils/day_card.dart';
 import 'package:weatherapp/utils/rounded_image.dart';
@@ -14,6 +16,35 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   double devHeight = 0.0, devWidth = 0.0;
   List<bool> isExpanded = [false, false, false, false, false, false, false];
+  String currMaxTemp = "",
+      currClimate = "",
+      currHumidity = "",
+      currLastUpdated = "",
+      currMinTemp = "",
+      currTemp = "",
+      currUv = "",
+      currWindspeed = "";
+
+  @override
+  void initState() {
+    super.initState();
+    fetchWeather();
+  }
+
+  fetchWeather() async {
+    Map<String, dynamic> json = await ApiService().fetchDataFromWeatherAPI();
+    // print(json);
+    CurrentWeather weather = CurrentWeather.fromJson(json);
+    currMaxTemp = weather.maxTemp as String;
+    currClimate = weather.climate;
+    currHumidity = weather.humidity as String;
+    currLastUpdated = weather.lastUpdated;
+    currMinTemp = weather.minTemp as String;
+    currTemp = weather.temp as String;
+    currUv = weather.uv as String;
+    currWindspeed = weather.windSpeed as String;
+  }
+
   @override
   Widget build(BuildContext context) {
     devHeight = MediaQuery.of(context).size.height;
@@ -50,8 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                       IconButton(
-                          onPressed: () {
+                          onPressed: () async {
                             print('tapped');
+                            // Map<String, dynamic> json =
+                            //     await ApiService().fetchDataFromWeatherAPI();
+                            // // print(json);
+                            // CurrentWeather weather =
+                            //     CurrentWeather.fromJson(json);
+                            // print(weather.maxTemp);
                           },
                           icon: Icon(Icons.menu, color: Colors.white, size: 30))
                     ],
