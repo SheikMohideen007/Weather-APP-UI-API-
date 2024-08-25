@@ -66,8 +66,9 @@ class _TodayDetailsState extends State<TodayDetails> {
     ];
     setState(() {
       currmonth = month[dt.month - 1];
-      currdate = dt.day.toString();
-      currtime = '${dt.hour.toString()}:${dt.minute.toString()}';
+      currdate = (dt.day < 10 ? "0${dt.day}" : dt.day.toString());
+      currtime =
+          '${(dt.hour < 10 ? "0${dt.hour}" : dt.hour.toString())}:${(dt.minute < 10 ? "0${dt.minute}" : dt.minute.toString())}';
     });
   }
 
