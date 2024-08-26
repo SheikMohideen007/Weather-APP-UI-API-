@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Map<String, dynamic> hour1 = {}, hour2 = {}, hour3 = {}, hour4 = {};
   String currClimate = "";
-  int currHour = DateTime.now().hour;
+  int currHour = 19; //DateTime.now().hour;
   @override
   void initState() {
     super.initState();
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
           height: devHeight,
           width: devWidth,
           child: Image.asset(
-            currHour < 6 && currHour > 18
+            currHour < 6 || currHour > 18
                 ? 'images/night.png'
                 : 'images/morning.png',
             fit: BoxFit.cover,
@@ -87,14 +87,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Icon(
                             Icons.location_on,
-                            color: currHour < 6 && currHour > 18
+                            color: currHour < 6 || currHour > 18
                                 ? Colors.white
                                 : Colors.black,
                           ),
                           SizedBox(width: 10),
                           Text('Chennai, India',
                               style: TextStyle(
-                                  color: currHour < 6 && currHour > 18
+                                  color: currHour < 6 || currHour > 18
                                       ? Colors.white
                                       : Colors.black,
                                   fontSize: 20))
@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             print('tapped');
                           },
                           icon: Icon(Icons.menu,
-                              color: currHour < 6 && currHour > 18
+                              color: currHour < 6 || currHour > 18
                                   ? Colors.white
                                   : Colors.black,
                               size: 30))

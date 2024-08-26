@@ -32,7 +32,7 @@ class _TodayDetailsState extends State<TodayDetails> {
     getDateAndTime();
   }
 
-  int currHour = DateTime.now().hour;
+  int currHour = 19; //DateTime.now().hour;
 
   void fetchWeather() async {
     Map<String, dynamic> json = await ApiService().fetchDataFromWeatherAPI();
@@ -87,14 +87,14 @@ class _TodayDetailsState extends State<TodayDetails> {
               children: [
                 Text('Today, $currmonth $currdate, $currtime',
                     style: TextStyle(
-                        color: currHour < 6 && currHour > 18
+                        color: currHour < 6 || currHour > 18
                             ? Colors.white
                             : Colors.black)),
                 RichText(
                   text: TextSpan(
                       text: currTemp,
                       style: TextStyle(
-                          color: currHour < 6 && currHour > 18
+                          color: currHour < 6 || currHour > 18
                               ? Colors.white.withOpacity(0.8)
                               : Colors.black.withOpacity(0.8),
                           fontSize: 150,
@@ -106,7 +106,7 @@ class _TodayDetailsState extends State<TodayDetails> {
                             '°c',
                             style: TextStyle(
                               fontSize: 40,
-                              color: currHour < 6 && currHour > 18
+                              color: currHour < 6 || currHour > 18
                                   ? Colors.white.withOpacity(0.8)
                                   : Colors.black.withOpacity(0.8),
                             ),
@@ -116,7 +116,7 @@ class _TodayDetailsState extends State<TodayDetails> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      color: currHour < 6 && currHour > 18
+                      color: currHour < 6 || currHour > 18
                           ? Colors.white.withOpacity(0.2)
                           : Colors.black.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(20)),
@@ -160,7 +160,7 @@ class _TodayDetailsState extends State<TodayDetails> {
                     currClimate,
                     style: TextStyle(
                         fontSize: 15,
-                        color: currHour < 6 && currHour > 18
+                        color: currHour < 6 || currHour > 18
                             ? Colors.white
                             : Colors.black),
                   ),
@@ -173,7 +173,7 @@ class _TodayDetailsState extends State<TodayDetails> {
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: currHour < 6 && currHour > 18
+              color: currHour < 6 || currHour > 18
                   ? Colors.grey.withOpacity(0.5)
                   : Colors.black.withOpacity(0.5)),
           child: Padding(
