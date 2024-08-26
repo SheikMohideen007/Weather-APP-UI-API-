@@ -9,7 +9,7 @@ The above API is free for some limits and better than other API.
 
 # Here is the Layout Demo of this Application
 
-<img src="https://github.com/user-attachments/assets/dd8dd93d-6f12-489a-ae70-b10bbb2b740d" height="450"/>
+<img src="https://github.com/user-attachments/assets/dd8dd93d-6f12-489a-ae70-b10bbb2b740d" height="450" width="300"/>
 <br><br>
 <img src="https://github.com/user-attachments/assets/42279b99-e9f1-4f76-bee1-b50b0f4bd858" height="450">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
