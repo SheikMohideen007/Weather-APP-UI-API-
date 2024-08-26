@@ -2,7 +2,8 @@
 
 Weather App which lists all the data about **current weather** & **forecast of weather** for next **5** days 
 
-**For Forecast** - (we can adjust the days with the help of API configuration for upto 10 days).
+**For Forecast** - We can adjust the days with the help of API configuration for upto 10 days.
+                 - We can get the Futuristic weather data as well.
 
 **API source link :**
 https://www.weatherapi.com/api-explorer.aspx#forecast  
