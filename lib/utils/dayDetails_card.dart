@@ -23,6 +23,8 @@ class _DayDetailsCardState extends State<DayDetailsCard> {
 
   Map<String, dynamic> hour1 = {}, hour2 = {}, hour3 = {}, hour4 = {};
 
+  String currClimate = "";
+
   @override
   void initState() {
     super.initState();
@@ -41,7 +43,26 @@ class _DayDetailsCardState extends State<DayDetailsCard> {
       hour2 = weather.hour2;
       hour3 = weather.hour3;
       hour4 = weather.hour4;
+      currClimate = weather.climate;
     });
+  }
+
+  String getImage({required String currClimate}) {
+    return currClimate == "Sunny"
+        ? 'sun'
+        : currClimate == "Mist"
+            ? 'haze'
+            : currClimate == "Clear" || currClimate == "Cloudy"
+                ? 'clouds'
+                : currClimate.contains("rain")
+                    ? 'rain'
+                    : currClimate.contains("Partly")
+                        ? 'partlycloud'
+                        : currClimate == "Thunder"
+                            ? 'thunder'
+                            : currClimate.contains('drizzle')
+                                ? 'drizzle'
+                                : 'wind';
   }
 
   @override
@@ -119,12 +140,14 @@ class _DayDetailsCardState extends State<DayDetailsCard> {
                 children: [
                   RoundedImage(
                       devHeight: widget.devHeight,
-                      climate: 'sun',
+                      climate:
+                          getImage(currClimate: hour1['condition']['text']),
                       time: (hour1['time'].split(" ")[1]) ?? 'N/A',
                       degree: '${hour1['temp_c']}'),
                   RoundedImage(
                       devHeight: widget.devHeight,
-                      climate: 'partlycloud',
+                      climate:
+                          getImage(currClimate: hour2['condition']['text']),
                       time: (hour2['time'].split(" ")[1]) ?? 'N/A',
                       degree: '${hour2['temp_c']}'),
                   RoundedImage(
@@ -134,12 +157,14 @@ class _DayDetailsCardState extends State<DayDetailsCard> {
                       degree: 'Sunrise'),
                   RoundedImage(
                       devHeight: widget.devHeight,
-                      climate: 'rain',
+                      climate:
+                          getImage(currClimate: hour3['condition']['text']),
                       time: (hour3['time'].split(" ")[1]) ?? 'N/A',
                       degree: '${hour3['temp_c']}'),
                   RoundedImage(
                       devHeight: widget.devHeight,
-                      climate: 'thunder',
+                      climate:
+                          getImage(currClimate: hour4['condition']['text']),
                       time: (hour3['time'].split(" ")[1]) ?? 'N/A',
                       degree: '${hour3['temp_c']}'),
                 ],

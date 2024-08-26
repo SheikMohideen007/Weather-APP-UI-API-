@@ -35,7 +35,24 @@ class _DayCardState extends State<DayCard> {
       currClimate = weather.climate;
       currdate = weather.date;
       currMinTemp = weather.minTemp.toString();
+      print(currClimate + "...");
     });
+  }
+
+  String getImage({required String currClimate}) {
+    return currClimate == "Sunny"
+        ? 'sun'
+        : currClimate == "Mist"
+            ? 'haze'
+            : currClimate == "Clear" || currClimate == "Cloudy"
+                ? 'clouds'
+                : currClimate.contains("rain")
+                    ? 'rain'
+                    : currClimate.contains("Partly")
+                        ? 'partlycloud'
+                        : currClimate == "Thunder"
+                            ? 'thunder'
+                            : 'wind';
   }
 
   @override
@@ -60,7 +77,8 @@ class _DayCardState extends State<DayCard> {
                     radius: widget.devHeight * 0.045,
                     child: Padding(
                       padding: EdgeInsets.all(10),
-                      child: Image.asset('images/rain.png'),
+                      child: Image.asset(
+                          'images/${getImage(currClimate: currClimate)}.png'),
                     ),
                   ),
                   Column(

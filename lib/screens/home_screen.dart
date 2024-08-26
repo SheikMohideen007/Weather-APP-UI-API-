@@ -18,7 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<bool> isExpanded = [false, false, false, false, false, false, false];
 
   Map<String, dynamic> hour1 = {}, hour2 = {}, hour3 = {}, hour4 = {};
-
+  String currClimate = "";
+  int currHour = DateTime.now().hour;
   @override
   void initState() {
     super.initState();
@@ -34,7 +35,24 @@ class _HomeScreenState extends State<HomeScreen> {
       hour2 = weather.hour2;
       hour3 = weather.hour3;
       hour4 = weather.hour4;
+      currClimate = weather.climate;
     });
+  }
+
+  String getImage({required String currClimate}) {
+    return currClimate == "Sunny"
+        ? 'sun'
+        : currClimate == "Mist"
+            ? 'haze'
+            : currClimate == "Clear" || currClimate == "Cloudy"
+                ? 'clouds'
+                : currClimate == "Patchy rain nearby" || currClimate == "Rainy"
+                    ? 'rain'
+                    : currClimate.contains("Partly")
+                        ? 'partlycloud'
+                        : currClimate == "Thunder"
+                            ? 'thunder'
+                            : 'wind';
   }
 
   @override
@@ -47,7 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
           height: devHeight,
           width: devWidth,
           child: Image.asset(
-            'images/night.png',
+            currHour < 6 && currHour > 18
+                ? 'images/night.png'
+                : 'images/morning.png',
             fit: BoxFit.cover,
           ),
         ),
@@ -65,18 +85,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.location_on, color: Colors.white),
+                          Icon(
+                            Icons.location_on,
+                            color: currHour < 6 && currHour > 18
+                                ? Colors.white
+                                : Colors.black,
+                          ),
                           SizedBox(width: 10),
                           Text('Chennai, India',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20))
+                              style: TextStyle(
+                                  color: currHour < 6 && currHour > 18
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontSize: 20))
                         ],
                       ),
                       IconButton(
                           onPressed: () async {
                             print('tapped');
                           },
-                          icon: Icon(Icons.menu, color: Colors.white, size: 30))
+                          icon: Icon(Icons.menu,
+                              color: currHour < 6 && currHour > 18
+                                  ? Colors.white
+                                  : Colors.black,
+                              size: 30))
                     ],
                   ),
                   SizedBox(height: 40),
@@ -134,22 +166,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             RoundedImage(
                                 devHeight: devHeight,
-                                climate: 'sun',
+                                climate: getImage(currClimate: currClimate),
                                 time: (hour1['time'].split(" ")[1]) ?? 'N/A',
                                 degree: '${hour1['temp_c']}'),
                             RoundedImage(
                                 devHeight: devHeight,
-                                climate: 'partlycloud',
+                                climate: getImage(currClimate: currClimate),
                                 time: (hour2['time'].split(" ")[1]) ?? 'N/A',
                                 degree: '${hour2['temp_c']}'),
                             RoundedImage(
                                 devHeight: devHeight,
-                                climate: 'rain',
+                                climate: getImage(currClimate: currClimate),
                                 time: (hour3['time'].split(" ")[1]) ?? 'N/A',
                                 degree: '${hour3['temp_c']}'),
                             RoundedImage(
                                 devHeight: devHeight,
-                                climate: 'thunder',
+                                climate: getImage(currClimate: currClimate),
                                 time: (hour4['time'].split(" ")[1]) ?? 'N/A',
                                 degree: '${hour4['temp_c']}'),
                           ],
@@ -230,11 +262,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   });
                                 },
                                 day: 5),
-                            DayDetailsCard(
-                                isExpanded: isExpanded[4],
-                                devHeight: devHeight,
-                                day: 5),
-                            SizedBox(height: 20),
                           ],
                         ),
                       ),

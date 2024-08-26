@@ -32,6 +32,8 @@ class _TodayDetailsState extends State<TodayDetails> {
     getDateAndTime();
   }
 
+  int currHour = DateTime.now().hour;
+
   void fetchWeather() async {
     Map<String, dynamic> json = await ApiService().fetchDataFromWeatherAPI();
     // print(json);
@@ -46,6 +48,7 @@ class _TodayDetailsState extends State<TodayDetails> {
       currUv = weather.uv.toString();
       currWindspeed = weather.windSpeed.toString();
     });
+    print(currClimate);
   }
 
   void getDateAndTime() {
@@ -83,12 +86,17 @@ class _TodayDetailsState extends State<TodayDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Today, $currmonth $currdate, $currtime',
-                    style: TextStyle(color: Colors.white)),
+                    style: TextStyle(
+                        color: currHour < 6 && currHour > 18
+                            ? Colors.white
+                            : Colors.black)),
                 RichText(
                   text: TextSpan(
                       text: currTemp,
                       style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
+                          color: currHour < 6 && currHour > 18
+                              ? Colors.white.withOpacity(0.8)
+                              : Colors.black.withOpacity(0.8),
                           fontSize: 150,
                           fontWeight: FontWeight.bold),
                       children: [
@@ -98,7 +106,9 @@ class _TodayDetailsState extends State<TodayDetails> {
                             '°c',
                             style: TextStyle(
                               fontSize: 40,
-                              color: Colors.white.withOpacity(0.8),
+                              color: currHour < 6 && currHour > 18
+                                  ? Colors.white.withOpacity(0.8)
+                                  : Colors.black.withOpacity(0.8),
                             ),
                           ),
                         ),
@@ -106,7 +116,9 @@ class _TodayDetailsState extends State<TodayDetails> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: currHour < 6 && currHour > 18
+                          ? Colors.white.withOpacity(0.2)
+                          : Colors.black.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(20)),
                   child: Padding(
                     padding: EdgeInsets.all(10),
@@ -142,11 +154,15 @@ class _TodayDetailsState extends State<TodayDetails> {
                   SizedBox(
                       height: 20,
                       child: Image.asset(
-                          'images/${currClimate == "Sunny" ? 'sun' : currClimate == "Mist" ? 'haze' : currClimate == "Clear" || currClimate == "Cloudy" ? 'clouds' : currClimate == "Patchy rain nearby" || currClimate == "Rainny" ? 'rain' : currClimate == "Partly Cloudy " ? 'partlycloud' : currClimate == "Thunder" ? 'thunder' : 'wind'}png')),
+                          'images/${currClimate == "Sunny" ? 'sun' : currClimate == "Mist" ? 'haze' : currClimate == "Clear" || currClimate == "Cloudy" ? 'clouds' : currClimate == "Patchy rain nearby" || currClimate == "Rainy" ? 'rain' : currClimate.contains("Partly") ? 'partlycloud' : currClimate == "Thunder" ? 'thunder' : 'wind'}.png')),
                   SizedBox(width: 10),
                   Text(
                     currClimate,
-                    style: TextStyle(fontSize: 15, color: Colors.white),
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: currHour < 6 && currHour > 18
+                            ? Colors.white
+                            : Colors.black),
                   ),
                 ],
               ),
@@ -157,7 +173,9 @@ class _TodayDetailsState extends State<TodayDetails> {
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: Colors.grey.withOpacity(0.5)),
+              color: currHour < 6 && currHour > 18
+                  ? Colors.grey.withOpacity(0.5)
+                  : Colors.black.withOpacity(0.5)),
           child: Padding(
             padding: EdgeInsets.all(20),
             child: Row(
