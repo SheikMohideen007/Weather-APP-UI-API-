@@ -1,22 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:weatherapp/model/forecast_weather.dart';
+import 'package:weatherapp/services/api_service.dart';
 import 'package:weatherapp/utils/rounded_image.dart';
 
-class DayDetailsCard extends StatelessWidget {
-  const DayDetailsCard({
-    super.key,
-    required this.isExpanded,
-    required this.devHeight,
-  });
+class DayDetailsCard extends StatefulWidget {
+  final int day;
+  const DayDetailsCard(
+      {super.key,
+      required this.isExpanded,
+      required this.devHeight,
+      required this.day});
 
   final bool isExpanded;
   final double devHeight;
+
+  @override
+  State<DayDetailsCard> createState() => _DayDetailsCardState();
+}
+
+class _DayDetailsCardState extends State<DayDetailsCard> {
+  String currWindspeed = "", currUv = "", currHumidity = "", currSunrise = "";
+
+  Map<String, dynamic> hour1 = {}, hour2 = {}, hour3 = {}, hour4 = {};
+
+  @override
+  void initState() {
+    super.initState();
+    fetchForecastWeather();
+  }
+
+  fetchForecastWeather() async {
+    Map<String, dynamic> json = await ApiService().fetchDataFromWeatherAPI();
+    ForecastWeather weather = ForecastWeather.fromJson(json, widget.day);
+    setState(() {
+      currUv = weather.uv.toString();
+      currWindspeed = weather.windSpeed.toString();
+      currHumidity = weather.humidity.toString();
+      currSunrise = weather.sunrise;
+      hour1 = weather.hour1;
+      hour2 = weather.hour2;
+      hour3 = weather.hour3;
+      hour4 = weather.hour4;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
-      height: isExpanded ? 280 : 0,
+      height: widget.isExpanded ? 260 : 0,
       decoration: BoxDecoration(
           color: Colors.grey.shade200,
           borderRadius: BorderRadius.only(
@@ -29,33 +62,53 @@ class DayDetailsCard extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              SizedBox(height: 5),
+              SizedBox(height: 30),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  RoundedImage(
-                      devHeight: devHeight,
-                      climate: 'sun',
-                      time: '05:00 AM',
-                      degree: '23'),
-                  RoundedImage(
-                      devHeight: devHeight,
-                      climate: 'partlycloud',
-                      time: '06:00 AM',
-                      degree: '20'),
-                  RoundedImage(
-                      devHeight: devHeight,
-                      climate: 'rain',
-                      time: '07:00 AM',
-                      degree: '17'),
-                  RoundedImage(
-                      devHeight: devHeight,
-                      climate: 'thunder',
-                      time: '08:00 AM',
-                      degree: '16'),
+                  Column(
+                    children: [
+                      Row(children: [
+                        SizedBox(
+                            height: 30,
+                            child: Image.asset('images/windspeed.png')),
+                        SizedBox(width: 5),
+                        Text('$currWindspeed KPH',
+                            style: TextStyle(fontWeight: FontWeight.bold))
+                      ]),
+                      Text('Wind Speed',
+                          style: TextStyle(fontWeight: FontWeight.bold))
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Row(children: [
+                        SizedBox(
+                            height: 30,
+                            child: Image.asset('images/humidity.png')),
+                        SizedBox(width: 5),
+                        Text(currHumidity,
+                            style: TextStyle(fontWeight: FontWeight.bold))
+                      ]),
+                      Text('Humidity',
+                          style: TextStyle(fontWeight: FontWeight.bold))
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Row(children: [
+                        SizedBox(
+                            height: 30, child: Image.asset('images/uv.png')),
+                        SizedBox(width: 5),
+                        Text(currUv,
+                            style: TextStyle(fontWeight: FontWeight.bold))
+                      ]),
+                      Text('UV', style: TextStyle(fontWeight: FontWeight.bold))
+                    ],
+                  )
                 ],
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 25),
               Container(
                 height: 2,
                 color: Colors.grey.shade500,
@@ -65,30 +118,30 @@ class DayDetailsCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RoundedImage(
-                      devHeight: devHeight,
+                      devHeight: widget.devHeight,
                       climate: 'sun',
-                      time: '05:00 AM',
-                      degree: '23'),
+                      time: (hour1['time'].split(" ")[1]) ?? 'N/A',
+                      degree: '${hour1['temp_c']}'),
                   RoundedImage(
-                      devHeight: devHeight,
+                      devHeight: widget.devHeight,
                       climate: 'partlycloud',
-                      time: '06:00 AM',
-                      degree: '20'),
+                      time: (hour2['time'].split(" ")[1]) ?? 'N/A',
+                      degree: '${hour2['temp_c']}'),
                   RoundedImage(
-                      devHeight: devHeight,
+                      devHeight: widget.devHeight,
                       climate: 'sunset',
-                      time: 'Sunset',
-                      degree: '20'),
+                      time: currSunrise,
+                      degree: 'Sunrise'),
                   RoundedImage(
-                      devHeight: devHeight,
+                      devHeight: widget.devHeight,
                       climate: 'rain',
-                      time: '07:00 AM',
-                      degree: '17'),
+                      time: (hour3['time'].split(" ")[1]) ?? 'N/A',
+                      degree: '${hour3['temp_c']}'),
                   RoundedImage(
-                      devHeight: devHeight,
+                      devHeight: widget.devHeight,
                       climate: 'thunder',
-                      time: '08:00 AM',
-                      degree: '16'),
+                      time: (hour3['time'].split(" ")[1]) ?? 'N/A',
+                      degree: '${hour3['temp_c']}'),
                 ],
               ),
             ],

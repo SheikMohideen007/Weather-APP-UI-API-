@@ -17,6 +17,26 @@ class _HomeScreenState extends State<HomeScreen> {
   double devHeight = 0.0, devWidth = 0.0;
   List<bool> isExpanded = [false, false, false, false, false, false, false];
 
+  Map<String, dynamic> hour1 = {}, hour2 = {}, hour3 = {}, hour4 = {};
+
+  @override
+  void initState() {
+    super.initState();
+    fetchWeather();
+  }
+
+  void fetchWeather() async {
+    Map<String, dynamic> json = await ApiService().fetchDataFromWeatherAPI();
+    // print(json);
+    CurrentWeather weather = CurrentWeather.fromJson(json);
+    setState(() {
+      hour1 = weather.hour1;
+      hour2 = weather.hour2;
+      hour3 = weather.hour3;
+      hour4 = weather.hour4;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     devHeight = MediaQuery.of(context).size.height;
@@ -115,28 +135,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             RoundedImage(
                                 devHeight: devHeight,
                                 climate: 'sun',
-                                time: '05:00 AM',
-                                degree: '23'),
+                                time: (hour1['time'].split(" ")[1]) ?? 'N/A',
+                                degree: '${hour1['temp_c']}'),
                             RoundedImage(
                                 devHeight: devHeight,
                                 climate: 'partlycloud',
-                                time: '06:00 AM',
-                                degree: '20'),
+                                time: (hour2['time'].split(" ")[1]) ?? 'N/A',
+                                degree: '${hour2['temp_c']}'),
                             RoundedImage(
                                 devHeight: devHeight,
                                 climate: 'rain',
-                                time: '07:00 AM',
-                                degree: '17'),
+                                time: (hour3['time'].split(" ")[1]) ?? 'N/A',
+                                degree: '${hour3['temp_c']}'),
                             RoundedImage(
                                 devHeight: devHeight,
                                 climate: 'thunder',
-                                time: '08:00 AM',
-                                degree: '16'),
+                                time: (hour4['time'].split(" ")[1]) ?? 'N/A',
+                                degree: '${hour4['temp_c']}'),
                           ],
                         ),
                       ),
                       SizedBox(height: devHeight * 0.03),
-                      Text('Next 7 Days',
+                      Text('Next 5 Days',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       SizedBox(height: devHeight * 0.02),
@@ -152,10 +172,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   setState(() {
                                     isExpanded[0] = !isExpanded[0];
                                   });
-                                }),
+                                },
+                                day: 1),
                             DayDetailsCard(
                                 isExpanded: isExpanded[0],
-                                devHeight: devHeight),
+                                devHeight: devHeight,
+                                day: 1),
                             SizedBox(height: 20),
                             //Day 2
                             DayCard(
@@ -164,10 +186,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   setState(() {
                                     isExpanded[1] = !isExpanded[1];
                                   });
-                                }),
+                                },
+                                day: 2),
                             DayDetailsCard(
                                 isExpanded: isExpanded[1],
-                                devHeight: devHeight),
+                                devHeight: devHeight,
+                                day: 2),
                             SizedBox(height: 20),
                             //Day 3
                             DayCard(
@@ -176,10 +200,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   setState(() {
                                     isExpanded[2] = !isExpanded[2];
                                   });
-                                }),
+                                },
+                                day: 3),
                             DayDetailsCard(
                                 isExpanded: isExpanded[2],
-                                devHeight: devHeight),
+                                devHeight: devHeight,
+                                day: 3),
                             SizedBox(height: 20),
                             // Day 4
                             DayCard(
@@ -188,10 +214,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   setState(() {
                                     isExpanded[3] = !isExpanded[3];
                                   });
-                                }),
+                                },
+                                day: 4),
                             DayDetailsCard(
                                 isExpanded: isExpanded[3],
-                                devHeight: devHeight),
+                                devHeight: devHeight,
+                                day: 4),
                             SizedBox(height: 20),
                             // Day 5
                             DayCard(
@@ -200,33 +228,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   setState(() {
                                     isExpanded[4] = !isExpanded[4];
                                   });
-                                }),
+                                },
+                                day: 5),
                             DayDetailsCard(
                                 isExpanded: isExpanded[4],
-                                devHeight: devHeight),
-                            SizedBox(height: 20),
-                            // Day 6
-                            DayCard(
                                 devHeight: devHeight,
-                                onPress: () {
-                                  setState(() {
-                                    isExpanded[5] = !isExpanded[5];
-                                  });
-                                }),
-                            DayDetailsCard(
-                                isExpanded: isExpanded[5],
-                                devHeight: devHeight),
+                                day: 5),
                             SizedBox(height: 20),
-                            // Day 7
-                            DayCard(
-                                devHeight: devHeight,
-                                onPress: () {
-                                  setState(() {
-                                    isExpanded[6] = !isExpanded[6];
-                                  });
-                                }),
-                            DayDetailsCard(
-                                isExpanded: isExpanded[6], devHeight: devHeight)
                           ],
                         ),
                       ),

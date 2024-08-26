@@ -139,7 +139,10 @@ class _TodayDetailsState extends State<TodayDetails> {
               quarterTurns: 3,
               child: Row(
                 children: [
-                  SizedBox(height: 20, child: Image.asset('images/clouds.png')),
+                  SizedBox(
+                      height: 20,
+                      child: Image.asset(
+                          'images/${currClimate == "Sunny" ? 'sun' : currClimate == "Mist" ? 'haze' : currClimate == "Clear" || currClimate == "Cloudy" ? 'clouds' : currClimate == "Patchy rain nearby" || currClimate == "Rainny" ? 'rain' : currClimate == "Partly Cloudy " ? 'partlycloud' : currClimate == "Thunder" ? 'thunder' : 'wind'}png')),
                   SizedBox(width: 10),
                   Text(
                     currClimate,
