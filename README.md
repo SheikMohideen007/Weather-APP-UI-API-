@@ -1,6 +1,6 @@
 # Weather Application using weather API
 
-Weather App which lists all the data about **current weather** & **forecast of weather** for next **5** days 
+Weather App which lists all the data about **current weather** & **forecast weather** for next **5** days 
 
 **For Forecast** - We can adjust the days with the help of API configuration for upto 10 days.
                  - We can get the Futuristic weather data as well.
