@@ -1,4 +1,4 @@
-# Weather Application using weather APi
+# Weather Application using weather API
 
 Weather App which lists all the data about **current weather** & **forecast weather** for next **5** days 
 
